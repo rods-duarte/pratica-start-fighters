@@ -7,5 +7,12 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(422).send(message);
   }
 
+  if (
+    err?.response.status === 404 &&
+    err?.response.headers.server === 'GitHub.com'
+  ) {
+    return res.status(404).send('Invalid user !');
+  }
+
   return res.status(500).send('Internal server error !');
 };
