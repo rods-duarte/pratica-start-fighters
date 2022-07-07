@@ -11,7 +11,14 @@ export async function validateFighters(
   if (!firstUser || !secondUser) {
     throw {
       type: 'Invalid Body',
-      message: 'missing username !',
+      message: 'Missing username !',
+    };
+  }
+
+  if (firstUser === secondUser) {
+    throw {
+      type: 'Invalid Body',
+      message: 'Use different users !',
     };
   }
 
