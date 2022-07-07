@@ -19,16 +19,6 @@ export async function getFighterStars(fighter: string) {
   };
 }
 
-export function getFighterStats(fighter: string) {
-  let user = fighterRepository.getFighterData(fighter);
-
-  if (!user) {
-    user = fighterRepository.createNewFighter(fighter);
-  }
-
-  return user;
-}
-
 export function compareTwoUsersStars(
   firstFighter: { user: string; totalStars: number },
   secondFighter: { user: string; totalStars: number }
