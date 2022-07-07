@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import fighterRepository from '../repositories/fighterRepository.js';
 
 import {
   compareTwoUsersStars,
@@ -20,4 +21,7 @@ export async function fight(req: Request, res: Response) {
   res.send(battleResult);
 }
 
-// export async function returnRanking(req: Request, res: Response) {}
+export async function returnRanking(req: Request, res: Response) {
+  const fighters = await fighterRepository.getRanking();
+  res.send({ fighters });
+}

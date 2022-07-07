@@ -48,10 +48,22 @@ export async function updateUserStat(fighter: string, stat: string) {
   }
 }
 
+export async function getRanking() {
+  const result = await db.query(
+    `--sql
+      SELECT USERNAME, WINS, LOSSES, DRAWS FROM FIGHTERS
+      ORDER BY WINS DESC, DRAWS DESC 
+    `
+  );
+
+  return result.rows;
+}
+
 const fighterRepository = {
   getFighterData,
   createNewFighter,
   updateUserStat,
+  getRanking,
 };
 
 export default fighterRepository;
