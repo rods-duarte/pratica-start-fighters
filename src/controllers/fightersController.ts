@@ -7,15 +7,32 @@ import {
   updateUsersStats,
 } from '../services/fightersService.js';
 
+interface FightBody {
+  firstUser: string;
+  secondUser: string;
+}
+
+export interface FighterStars {
+  user: string;
+  totalStars: number;
+}
+
+export interface BattleResult {
+  winner: string | null;
+  losser: string | null;
+  draw: boolean;
+}
+
 export async function fight(req: Request, res: Response) {
-  const { firstUser, secondUser }: { firstUser: string; secondUser: string } =
-    req.body;
+  const { firstUser, secondUser }: FightBody = req.body;
 
-  const firstUserStars = await getFighterStars(firstUser);
-  const secondUserStars = await getFighterStars(secondUser);
+  const firstUserStars: FighterStars = await getFighterStars(firstUser);
+  const secondUserStars: FighterStars = await getFighterStars(secondUser);
 
-  const battleResult: { winner: any; losser: any; draw: boolean } =
-    compareTwoUsersStars(firstUserStars, secondUserStars);
+  const battleResult: BattleResult = compareTwoUsersStars(
+    firstUserStars,
+    secondUserStars
+  );
   await updateUsersStats(battleResult, firstUser, secondUser);
 
   res.send(battleResult);

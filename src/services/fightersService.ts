@@ -2,7 +2,12 @@ import axios from 'axios';
 
 import fighterRepository from '../repositories/fighterRepository.js';
 
-export async function getFighterStars(fighter: string) {
+import {
+  BattleResult,
+  FighterStars,
+} from '../controllers/fightersController.js';
+
+export async function getFighterStars(fighter: string): Promise<FighterStars> {
   const URL = `https://api.github.com/users/${fighter}/repos`;
   const response: { data: [] } = await axios.get(URL);
   const repos = response.data;
@@ -20,8 +25,8 @@ export async function getFighterStars(fighter: string) {
 }
 
 export function compareTwoUsersStars(
-  firstFighter: { user: string; totalStars: number },
-  secondFighter: { user: string; totalStars: number }
+  firstFighter: FighterStars,
+  secondFighter: FighterStars
 ) {
   if (firstFighter.totalStars > secondFighter.totalStars) {
     return {
@@ -47,11 +52,7 @@ export function compareTwoUsersStars(
 }
 
 export async function updateUsersStats(
-  battleResult: {
-    losser: any;
-    winner: any;
-    draw: boolean;
-  },
+  battleResult: BattleResult,
   firstUser: string,
   secondUser: string
 ) {

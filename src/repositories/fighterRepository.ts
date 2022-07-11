@@ -1,7 +1,15 @@
 import db from '../database/index.js';
 
-export async function getFighterData(fighter: string) {
-  const result = await db.query(
+interface Fighter {
+  id: number;
+  username: string;
+  wins: number;
+  losses: number;
+  draws: number;
+}
+
+export async function getFighterData(fighter: string): Promise<Fighter> {
+  const result = await db.query<Fighter>(
     `--sql
           SELECT * FROM FIGHTERS
           WHERE USERNAME = $1
@@ -48,8 +56,8 @@ export async function updateUserStat(fighter: string, stat: string) {
   }
 }
 
-export async function getRanking() {
-  const result = await db.query(
+export async function getRanking(): Promise<Fighter[]> {
+  const result = await db.query<Fighter>(
     `--sql
       SELECT USERNAME, WINS, LOSSES, DRAWS FROM FIGHTERS
       ORDER BY WINS DESC, DRAWS DESC 
